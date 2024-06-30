@@ -3,6 +3,20 @@
     <fullName>Previous_Event__c</fullName>
     <deleteConstraint>SetNull</deleteConstraint>
     <label>Previous Event</label>
+    <lookupFilter>
+        <active>true</active>
+        <filterItems>
+            <field>Sensor_Event__c.Sensor__c</field>
+            <operation>equals</operation>
+            <valueField>$Source.Sensor__c</valueField>
+        </filterItems>
+        <filterItems>
+            <field>Sensor_Event__c.Id</field>
+            <operation>notEqual</operation>
+            <valueField>$Source.Id</valueField>
+        </filterItems>
+        <isOptional>false</isOptional>
+    </lookupFilter>
     <referenceTo>Sensor_Event__c</referenceTo>
     <relationshipLabel>Sensor Events</relationshipLabel>
     <relationshipName>Sensor_Events</relationshipName>
