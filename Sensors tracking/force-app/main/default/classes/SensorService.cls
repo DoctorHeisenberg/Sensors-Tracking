@@ -1,7 +1,7 @@
 @RestResource(urlMapping='/Sensor/*')
 global with sharing class SensorService {
     @HttpPost
-    global static void addService(List<Sensor> sensors) {
+    global static void addSensor(List<Sensor> sensors) {
         RestResponse response = RestContext.response;
         
         try {
@@ -39,5 +39,11 @@ global with sharing class SensorService {
         public Decimal x;
         public Decimal y;
         public Decimal z;
+
+        public SensorEvent(Decimal x, Decimal y, Decimal z) {
+            this.x = x;
+            this.y = y;
+            this.z = z;
+        }
     }
 }

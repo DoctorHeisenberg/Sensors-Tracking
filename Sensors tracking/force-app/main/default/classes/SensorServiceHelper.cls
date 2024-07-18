@@ -12,8 +12,10 @@ public class SensorServiceHelper {
         return sensorsToInsert;
     }
 
-    public static List<Sensor_Event__c> prepareSensorEvents(List<SensorService.Sensor> sensors, 
-        List<Sensor__c> insertedSensors) {
+    public static List<Sensor_Event__c> prepareSensorEvents(
+        List<SensorService.Sensor> sensors, 
+        List<Sensor__c> insertedSensors
+    ) {
         List<Sensor_Event__c> sensorEventsToInsert = new List<Sensor_Event__c>();
 
         for (Integer i = 0; i < sensors.size(); i++) {
