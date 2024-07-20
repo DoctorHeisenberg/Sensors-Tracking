@@ -3,7 +3,7 @@ public with sharing class SensorController {
     @AuraEnabled(cacheable=true)
     public static List<Sensor__c> getSensors() {
         try {
-            return [SELECT Id, Name, Max_Vectors_Length__c FROM Sensor__c];
+            return [SELECT Id, Name, Max_Vectors_Length__c, CreatedDate FROM Sensor__c];
         } catch (Exception e) {
             throw new AuraHandledException('Error retrieving sensors: ' + e.getMessage());
         }
