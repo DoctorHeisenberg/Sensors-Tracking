@@ -1,4 +1,5 @@
 public class SensorServiceHelper {
+    //Maps SensorService.Sensor records to Sensor__c SObject
     public static List<Sensor__c> prepareSensors(List<SensorService.Sensor> sensors) {
         List<Sensor__c> sensorsToInsert = new List<Sensor__c>();
         
@@ -12,6 +13,7 @@ public class SensorServiceHelper {
         return sensorsToInsert;
     }
 
+    //Maps SensorService.SensorEvent records to Sensor_Event__c SObject
     public static List<Sensor_Event__c> prepareSensorEvents(
         List<SensorService.Sensor> sensors, 
         List<Sensor__c> insertedSensors
@@ -35,6 +37,7 @@ public class SensorServiceHelper {
         return sensorEventsToInsert;
     }
 
+    //Removes existing Sensor__c records from List
     public static void removeExistingSensors(List<SensorService.Sensor> sensors) {
         Set<String> sensorIds = new Set<String>();
         for (SensorService.Sensor sensor : sensors) {

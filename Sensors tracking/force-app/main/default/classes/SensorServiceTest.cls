@@ -1,103 +1,58 @@
 @IsTest
 public class SensorServiceTest {
-    public static List<SensorService.Sensor> testData;
+    public static List<SensorService.Sensor> testData = new List<SensorService.Sensor>();
+    @IsTest
+    static void testAddSensor() {
+        Sensor__c sensor = new Sensor__c(Name = 'Sensor1');
+        insert sensor;
 
-    @TestSetup
-    static void loadTestData() {
-        // Insert existing sensor to test the removal of existing sensors
-        Sensor__c existingSensor = TestFactory.generateSobjectSensor('Sensor1');
-        insert existingSensor;
-
-        // Prepare test data
-        /*SensorService.Sensor sensor1 = TestFactory.generateSensor('Sensor1');
+        List<SensorService.Sensor> sensors = new List<SensorService.Sensor>();
+        
+        SensorService.Sensor sensor1 = new SensorService.Sensor();
+        sensor1.sensorid = 'Sensor1';
         sensor1.vectors = new List<SensorService.SensorEvent>{
-            TestFactory.generateSensorEvent(22, 17, 197),
-            TestFactory.generateSensorEvent(23, 45, 14)
+            new SensorService.SensorEvent(1.0, 2.0, 3.0)
         };
-
-        // Prepare test data
-        SensorService.Sensor sensor2 = TestFactory.generateSensor('Sensor2');
-        sensor2.vectors = new List<SensorService.SensorEvent>{
-            TestFactory.generateSensorEvent(23, 11, 127),
-            TestFactory.generateSensorEvent(24, 15, 15)
-        };
-
-        testData = new List<SensorService.Sensor>{sensor1, sensor2};*/
-
-        //TestFactory.setTestData(sensorList);
-    }
-
-    /*@IsTest
-    static void testAddServiceSuccess() {
-        // Retrieve test data
-        //List<SensorService.Sensor> sensors = TestFactory.getTestData();
-        SensorService.Sensor sensor1 = TestFactory.generateSensor('Sensor1');
-        sensor1.vectors = new List<SensorService.SensorEvent>{
-            TestFactory.generateSensorEvent(22, 17, 197),
-            TestFactory.generateSensorEvent(23, 45, 14)
-        };
-
-        // Prepare test data
-        SensorService.Sensor sensor2 = TestFactory.generateSensor('Sensor2');
-        sensor2.vectors = new List<SensorService.SensorEvent>{
-            TestFactory.generateSensorEvent(23, 11, 127),
-            TestFactory.generateSensorEvent(24, 15, 15)
-        };
+        sensors.add(sensor1);
 
         SensorService.Sensor sensor2 = new SensorService.Sensor();
         sensor2.sensorid = 'Sensor2';
         sensor2.vectors = new List<SensorService.SensorEvent>{
-            new SensorService.SensorEvent(23, 11, 127),
-            new SensorService.SensorEvent(24, 15, 15)
+            new SensorService.SensorEvent(7.0, 8.0, 9.0),
+            new SensorService.SensorEvent(4.0, 5.0, 6.0)
         };
-        List<SensorService.Sensor> sensors = new List<SensorService.Sensor>{sensor2};
-        // Perform the method call
+        sensors.add(sensor2);
+
         Test.startTest();
+        RestResponse res = new RestResponse();
+        RestContext.response = res;
         SensorService.addSensor(sensors);
         Test.stopTest();
-
-        // Verify the inserted records
+        
+        // Verify the response
+        System.assertEquals(200, res.statusCode, 'Wrong responce code');
+        System.assertEquals('Records successfully inserted.', res.responseBody.toString(), 'Wrong responce message');
+        
+        // Verify sensors were inserted
         List<Sensor__c> insertedSensors = [SELECT Name FROM Sensor__c WHERE Name IN ('Sensor1', 'Sensor2')];
-        System.assertEquals(1, insertedSensors.size());
-
+        System.assertEquals(2, insertedSensors.size(), 'Wrong inserted sensors count');
+        
+        // Verify sensor events were inserted
         List<Sensor_Event__c> insertedEvents = [SELECT Sensor__c, x__c, y__c, z__c FROM Sensor_Event__c];
-        System.assertEquals(2, insertedEvents.size());
-    }*/
-
-    /*@IsTest
-    static void testAddServiceWithExistingSensor() {
-        // Retrieve test data
-        List<SensorService.Sensor> sensors = TestFactory.getTestData();
-
-        // Perform the method call
-        Test.startTest();
-        SensorService.addSensor(sensors);
-        Test.stopTest();
-
-        // Verify the inserted records
-        List<Sensor__c> insertedSensors = [SELECT Name FROM Sensor__c WHERE Name = 'Sensor2'];
-        System.assertEquals(1, insertedSensors.size());
-
-        List<Sensor_Event__c> insertedEvents = [SELECT Sensor__c, x__c, y__c, z__c FROM Sensor_Event__c];
-        System.assertEquals(2, insertedEvents.size());
+        System.assertEquals(2, insertedEvents.size(), 'Wrong inserted events count');
     }
 
     @IsTest
     static void testAddServiceWithException() {
-        // Retrieve test data
-        List<SensorService.Sensor> sensors = TestFactory.getTestData();
 
-        // Introduce an error in the data to cause an exception
-        sensors[1].sensorid = null;  // Missing sensorid for the second sensor
-
-        // Perform the method call
         Test.startTest();
-        try {
-            SensorService.addSensor(sensors);
-            System.assert(false, 'Expected an exception to be thrown');
-        } catch (Exception e) {
-            System.assert(e.getMessage().contains('An error occurred:'), 'Expected an error message containing "An error occurred:"');
-        }
+        RestResponse res = new RestResponse();
+        RestContext.response = res;
+        SensorService.addSensor(null);
         Test.stopTest();
-    }*/
+
+        // Verify the response
+        System.assertEquals(500, res.statusCode, 'Wrong responce code');
+        System.assert(res.responseBody.toString().contains('An error occurred:'), 'Wrong responce message');
+    }
 }
