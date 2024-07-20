@@ -1,6 +1,5 @@
 @IsTest
 public class SensorServiceTest {
-    public static List<SensorService.Sensor> testData = new List<SensorService.Sensor>();
     @IsTest
     static void testAddSensor() {
         Sensor__c sensor = new Sensor__c(Name = 'Sensor1');
