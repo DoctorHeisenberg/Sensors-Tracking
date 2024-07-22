@@ -16,6 +16,7 @@
     <navType>Standard</navType>
     <tabs>Sensor__c</tabs>
     <tabs>Sensor_Event__c</tabs>
+    <tabs>Sensors_LWC</tabs>
     <uiType>Lightning</uiType>
     <utilityBar>Sensors_Tracking_UtilityBar</utilityBar>
 </CustomApplication>
