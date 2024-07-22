@@ -1,0 +1,16 @@
+<template>
+    <lightning-card title="Sensors" icon-name="custom:custom63">
+        <template if:true={sensors}>
+            <lightning-datatable
+                key-field="Id"
+                data={sensors}
+                columns={columns}
+                hide-checkbox-column="true"
+                onrowaction={handleRowAction}>
+            </lightning-datatable>
+        </template>
+        <template if:true={error}>
+            <p class="slds-text-color_error">{error}</p>
+        </template>
+    </lightning-card>
+</template>

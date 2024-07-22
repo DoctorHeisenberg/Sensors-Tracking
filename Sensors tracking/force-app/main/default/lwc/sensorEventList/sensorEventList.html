@@ -1,0 +1,17 @@
+<template>
+    <lightning-card title="Sensor Events" icon-name="custom:custom63">
+        <template if:true={events}>
+            <lightning-datatable
+                key-field="Id"
+                data={events}
+                columns={columns}
+                draft-values={draftValues}
+                onsave={handleSave}
+                hide-checkbox-column="true">
+            </lightning-datatable>
+        </template>
+        <template if:true={error}>
+            <p class="slds-text-color_error">{error}</p>
+        </template>
+    </lightning-card>
+</template>
